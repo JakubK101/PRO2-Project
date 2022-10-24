@@ -24,4 +24,11 @@ public class Message {
     public LocalDateTime getCreated() {
         return created;
     }
+
+    @Override
+    public String toString() {
+        String s = author +"[" + created+ "]\n";
+        s+=text+"\n";
+        return s;
+    }
 }

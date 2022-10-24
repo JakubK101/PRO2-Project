@@ -1,5 +1,6 @@
 package models.chatClients;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,9 @@ public class inMemoryChatClient implements ChatClient{
     private List<String> loggedUsers;
     private List<Message> messages;
 
+    private List<ActionListener> listenerLoggedUsersChanged = new ArrayList<>();
+    private List<ActionListener> listenerMessagesChanged = new ArrayList<>();
+
     public inMemoryChatClient(){
         loggedUsers = new ArrayList<>();
         messages = new ArrayList<>();
@@ -17,23 +21,26 @@ public class inMemoryChatClient implements ChatClient{
     @Override
     public void sendMessage(String text) {
         messages.add(new Message(loggedUser, text));
+        raiseEventMessagesChanged();
     }
 
     @Override
     public void login(String username) {
         loggedUser = username;
         loggedUsers.add(username);
+        raiseEventLoggedUsersChanged();
     }
 
     @Override
     public void logout() {
         loggedUsers.remove(loggedUser);
         loggedUser = null;
+        raiseEventLoggedUsersChanged();
     }
 
     @Override
     public boolean isAuthenticated() {
-        return loggedUsers!=null;
+        return loggedUser!=null;
     }
 
     @Override
@@ -48,11 +55,23 @@ public class inMemoryChatClient implements ChatClient{
 
     @Override
     public void addActionListenerLoggedUsersChanged(ActionListener toAdd) {
-
+        listenerLoggedUsersChanged.add(toAdd);
     }
 
     @Override
     public void addActionListenerMessagesChanged(ActionListener toAdd) {
+        listenerMessagesChanged.add(toAdd);
+    }
 
+    private void raiseEventLoggedUsersChanged(){
+        for (ActionListener al:
+                listenerLoggedUsersChanged){{
+        al.actionPerformed(new ActionEvent(this,1,"users changed"));}
+        }
+    }
+    private void raiseEventMessagesChanged(){
+        for (ActionListener al: listenerMessagesChanged){
+            al.actionPerformed(new ActionEvent(this,1,"message changed"));
+        }
     }
 }

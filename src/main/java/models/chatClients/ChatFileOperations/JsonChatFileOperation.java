@@ -21,8 +21,9 @@ public class JsonChatFileOperation implements ChatFileOperations{
 
     public JsonChatFileOperation(){
        GsonBuilder gsonBuilder = new GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-                .setPrettyPrinting();
+               .excludeFieldsWithoutExposeAnnotation()
+               .setPrettyPrinting();
+
        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
 
@@ -90,7 +91,8 @@ class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime>{
 class LocalDateTimeDeserializer implements JsonDeserializer<LocalDateTime>{
 
     @Override
-    public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext)
+            throws JsonParseException {
         return  LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

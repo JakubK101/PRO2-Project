@@ -1,11 +1,12 @@
 import gui.MainFrame;
-import models.chatClients.ChatClient;
+import models.chatClients.*;
 import models.chatClients.ChatFileOperations.ChatFileOperations;
 import models.chatClients.ChatFileOperations.JsonChatFileOperation;
-import models.chatClients.Message;
-import models.chatClients.ToFileChatClient;
 import models.chatClients.database.DbInicializer;
-import models.chatClients.inMemoryChatClient;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,8 +18,16 @@ public class Main {
 
         ChatFileOperations chatFileOperations = new JsonChatFileOperation();
 
-        ChatClient client = new ToFileChatClient(chatFileOperations);
+        ChatClient client = new ApiChatClient();
 
+        Class<ApiChatClient> reflectionExample = ApiChatClient.class;
+        List<Field> fields = getAllFields(reflectionExample);
+
+
+
+        for(Field f: fields){
+            System.out.println(f.getName() + " : " + f.getType());
+        }
 
         System.out.println("Hello world!");
 
@@ -54,5 +63,12 @@ public class Main {
         }
         client.logout();
 
+    }
+    private static List<Field> getAllFields(Class<?> cls){
+        List<Field> fieldList = new ArrayList<>();
+        for(Field f:cls.getDeclaredFields()){
+            fieldList.add(f);
+        }
+        return fieldList;
     }
 }

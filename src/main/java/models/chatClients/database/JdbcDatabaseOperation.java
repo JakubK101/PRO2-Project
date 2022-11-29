@@ -1,5 +1,6 @@
 package models.chatClients.database;
 
+import models.chatClients.ApiChatClient;
 import models.chatClients.Message;
 
 import java.sql.*;
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class JdbcDatabaseOperation implements DatabaseOperations{
     private final Connection connection;
+    private ApiChatClient api;
 
     public JdbcDatabaseOperation(String driver, String url)
         throws  ClassNotFoundException,SQLException{
@@ -34,11 +36,12 @@ public class JdbcDatabaseOperation implements DatabaseOperations{
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
 
     @Override
     public List<Message> getMessages() {
-        return null;
-        //TODO
+        return api.getMessages();
+
     }
 }

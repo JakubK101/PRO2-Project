@@ -14,6 +14,7 @@ public class JdbcDatabaseOperation implements DatabaseOperations{
         throws  ClassNotFoundException,SQLException{
             Class.forName(driver);
             this.connection = DriverManager.getConnection(url);
+            api= new ApiChatClient();
         }
 
 

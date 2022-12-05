@@ -30,7 +30,7 @@ public class ApiChatClient implements ChatClient{
     private List<ActionListener> listenerLoggedUsersChanged = new ArrayList<>();
     private List<ActionListener> listenerMessagesChanged = new ArrayList<>();
 
-    private  final String BASE_URL="http://fimuhkpro22021.aspifyhost.cz/swagger";
+    private  final String BASE_URL="http://fimuhkpro22021.aspifyhost.cz";
     private String token;
 
     private Gson gson;

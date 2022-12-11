@@ -2,7 +2,9 @@ import gui.MainFrame;
 import models.chatClients.*;
 import models.chatClients.ChatFileOperations.ChatFileOperations;
 import models.chatClients.ChatFileOperations.JsonChatFileOperation;
+import models.chatClients.database.DatabaseOperations;
 import models.chatClients.database.DbInicializer;
+import models.chatClients.database.JdbcDatabaseOperation;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,27 +15,32 @@ public class Main {
         String databaseDriver = "org.apache.derby.jdbc.EmbeddedDriver";
         String databaseUrl = "jdbc:derby:ChatClientDb_skA";
 
-        DbInicializer dbInicializer = new DbInicializer(databaseDriver,databaseUrl);
-        dbInicializer.init();
 
-        ChatFileOperations chatFileOperations = new JsonChatFileOperation();
+        try {
 
-        ChatClient client = new ApiChatClient();
-
-        Class<ApiChatClient> reflectionExample = ApiChatClient.class;
-        List<Field> fields = getAllFields(reflectionExample);
+            DbInicializer dbInicializer = new DbInicializer(databaseDriver, databaseUrl);
+            dbInicializer.init();
 
 
+            ChatClient client = new ApiChatClient();
 
-        for(Field f: fields){
-            System.out.println(f.getName() + " : " + f.getType());
+
+            Class<ApiChatClient> reflectionExample = ApiChatClient.class;
+            List<Field> fields = getAllFields(reflectionExample);
+
+
+            for (Field f : fields) {
+                System.out.println(f.getName() + " : " + f.getType());
+            }
+
+            System.out.println("Hello world!");
+
+            //ChatClient client = new inMemoryChatClient();
+
+            MainFrame window = new MainFrame(800, 600, client);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
-        System.out.println("Hello world!");
-
-        //ChatClient client = new inMemoryChatClient();
-
-        MainFrame window = new MainFrame(800,600, client);
 
 
 
@@ -43,12 +50,6 @@ public class Main {
 
 
     }
-
-
-
-
-
-
 
     public void test(){
         ChatClient client = new inMemoryChatClient();

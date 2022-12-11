@@ -183,7 +183,7 @@ public class ApiChatClient implements ChatClient{
     private void refreshLoggedUsers(){
         try{
         String url = BASE_URL + "/api/Chat/GetLoggedUsers";
-        HttpGet get = new HttpGet();
+        HttpGet get = new HttpGet(url);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(get);
@@ -201,7 +201,7 @@ public class ApiChatClient implements ChatClient{
     }
     private void refreshMessages(){
        try{ String url = BASE_URL + "/api/Chat/GetMessages";
-        HttpGet get = new HttpGet();
+        HttpGet get = new HttpGet(url);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         CloseableHttpResponse response = httpClient.execute(get);
